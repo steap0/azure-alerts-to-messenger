@@ -1,0 +1,6 @@
+.vscode/
+.venv/
+venv/
+local.settings.json
+.gitignore
+README.md

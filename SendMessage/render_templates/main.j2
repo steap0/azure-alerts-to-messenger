@@ -1,0 +1,32 @@
+{# set variables - start #}
+{# variable condition #}
+{%- if data["data"]["essentials"]["monitorCondition"] == "Fired" %}
+{%- set condition = "🔥" -%}
+{%- elif data["data"]["essentials"]["monitorCondition"] == "Resolved" %}
+{%- set condition = "✅" -%}
+{%- else -%}
+{%- set condition = data["data"]["essentials"]["monitorCondition"] -%}
+{%- endif %}
+{#=============#}
+{# variable severity #}
+{%- set severity = {"Sev0": "🔴 Critical", "Sev1": "🟠 Error", "Sev2": "🟡 Warning", "Sev3": "🟢 Informational", "Sev4": "🔵 Verbose"} %}
+{# set variables - end #}
+*Rule:* {{ data["data"]["essentials"]["alertRule"] }}
+{%- if data["data"]["essentials"]["description"] %}
+*Description:* {{ data["data"]["essentials"]["description"] }}
+{%- endif %}
+*Date and time:* {{ data["data"]["essentials"]["firedDateTime"] | format_datetime }}
+*Condition:* {{ condition }}
+*Severity:* {{ severity[data["data"]["essentials"]["severity"]] }}
+{# show metrics #}
+{%- if data["data"]["alertContext"]["condition"] is defined %}
+{%- for metric in data["data"]["alertContext"]["condition"]["allOf"] %}
+*Metric:* {{ metric["metricName"] }}
+*Threshold:* {{ metric["threshold"] }}
+*Value:* {{ metric["metricValue"] }}
+{% endfor %}
+{%- endif -%}
+{# link to search results #}
+{%- if data["data"]["alertContext"]["SearchResults"] is defined -%}
+*Link:* {{ data["data"]["alertContext"]["LinkToSearchResults"] }}
+{%- endif %}
