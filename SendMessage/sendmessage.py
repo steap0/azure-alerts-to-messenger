@@ -76,7 +76,7 @@ def send_telegram_message(token: str, chat_id: str, text: str, debug: bool = 0) 
     if result:
         if result["ok"]:
             logging.info(
-                f'Message sent to Telegram chat {result["result"]["chat"]["title"]}({result["result"]["chat"]["id"]}).')
+                f'Message sent to Telegram chat {result["result"]["chat"]["id"]}.')
             return
         else:
             logging.error(f"Message sending error: {result}")
